@@ -1,7 +1,7 @@
 public class SimpleLocation
 {
-	public double longitude;
-	public double latitude;
+	private double longitude;
+	private double latitude;
 
 	// Default constructor
 	public SimpleLocation(double lat, double lon){
@@ -13,6 +13,19 @@ public class SimpleLocation
 	    this.longitude = lon; 
 	    this.latitude = lat;
 	}
+
+	// getter
+	public double getLatitude()
+	{
+		return this.latitude;
+	}
+
+	// setter
+	public void setLatitude(double lat)
+	{
+		
+	}
+
 	public double distance(SimpleLocation other)
 	{
 		return (this.latitude , this.longitude, other.latitude, other.longitude)
