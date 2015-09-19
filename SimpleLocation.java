@@ -23,7 +23,12 @@ public class SimpleLocation
 	// setter
 	public void setLatitude(double lat)
 	{
-		
+		if(lat < -180 || lat > 180){
+			System.out.println("Illegal value for latitude");
+		}
+		else {
+			this.latitude = lat;
+		}
 	}
 
 	public double distance(SimpleLocation other)
