@@ -36,6 +36,8 @@ public class SimpleLocation
 	public double distance(SimpleLocation other)
 	{
 		//return getDist(this.latitude , this.longitude, other.latitude, other.longitude)
-		return this.latitude - other.latitude
+		return this.latitude - other.latitude;
+
 	}
+
 }
