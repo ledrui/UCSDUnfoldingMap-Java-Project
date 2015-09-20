@@ -4,14 +4,16 @@ public class SimpleLocation
 	private double latitude;
 
 	// Default constructor
-	public SimpleLocation(double lat, double lon){
+	public SimpleLocation(){
+		this.latitude = 47.697263 ;
 	    this.longitude = -122.321724 ; 
-	    this.latitude = 47.697263 ;
+	    
 	}
 	// Constructor
 	public SimpleLocation(double lat, double lon){
+		this.latitude = lat;
 	    this.longitude = lon; 
-	    this.latitude = lat;
+	    
 	}
 
 	// getter
@@ -33,6 +35,7 @@ public class SimpleLocation
 
 	public double distance(SimpleLocation other)
 	{
-		return (this.latitude , this.longitude, other.latitude, other.longitude)
+		//return getDist(this.latitude , this.longitude, other.latitude, other.longitude)
+		return this.latitude - other.latitude
 	}
 }
