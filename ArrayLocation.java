@@ -17,5 +17,6 @@ public class ArrayLocation
 		System.out.println("accra: " + accra.coords[0]);
 		accra = bobo;
 		System.out.println("accra latitude after bobo assignment: " + accra.coords[0]);
+		system.out.println("accra longitutde after object bobo has been assigned to it: " + accra.coords[1]);
 	}
 }
