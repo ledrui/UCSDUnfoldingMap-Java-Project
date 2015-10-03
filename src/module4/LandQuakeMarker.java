@@ -24,7 +24,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 
 	@Override
 	public void drawEarthquake(PGraphics pg, float x, float y) {
-		// Draw a centered circle for ocean quakes
+		// Draw a centered circle for land quakes
 		// DO NOT set the fill color here.  That will be set in the EarthquakeMarker
 		// class to indicate the depth of the earthquake.
 		// Simply draw a centered circle.
@@ -33,6 +33,8 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
+		float myRadius = this.radius;
+		pg.rect(x, y, myRadius+3, myRadius+3 ); 
 		
 	}
 	
@@ -41,8 +43,5 @@ public class LandQuakeMarker extends EarthquakeMarker {
 	public String getCountry() {
 		return (String) getProperty("country");
 	}
-
-
-
 		
 }
