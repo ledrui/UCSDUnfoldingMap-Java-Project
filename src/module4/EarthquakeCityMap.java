@@ -79,11 +79,11 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		earthquakesURL = "test1.atom";
+		//earthquakesURL = "test1.atom";
 	     //earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -134,15 +134,6 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		System.out.println("Ocean_count: "+ o_count);
 		
-		/*int usa_count = 0; 
-		for(Feature country: countries) {
-			for (Marker m : quakeMarkers ){
-				
-				if(m.Properties.get("country") == country){
-					usa_count++;
-			}
-    	}
-		System.out.println("usa_count: "+ usa_count);*/
 	    
 	}  // End setup
 	
@@ -233,23 +224,25 @@ public class EarthquakeCityMap extends PApplet {
 		// reading earthquake data
 		List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 		// TODO: Implement this method
-		String countryName = null  ;
-		int landCounter = 0 ;
-		int O_count = 0;
+		//String countryName = null  ;
+		
 		for ( Marker country : countryMarkers)
 		{	
-			O_count = 0;
-			landCounter = 0;
-			String countryName1 =  (String) country.getProperty("name");
-			//for ( Marker quake : quakeMarkers )
-			boolean check = false ;
-			for(PointFeature quake: earthquakes)	
+			int O_count = 0;
+			int landCounter = 0 ;
+			String CountryName_1 = (String) country.getProperty("name");
+			
+			//for(PointFeature quake: earthquakes)
+			for ( Marker quake : quakeMarkers )
 			{
-				countryName = (new LandQuakeMarker(quake).getCountry());
+				String countryName = (String) quake.getProperty("country"); // 
 				
-				if (countryName == countryName1 )
+				if (countryName == CountryName_1 ){
 					landCounter++; 
-				
+					System.out.println(" Country earthquake "+ countryName +" :"+ landCounter);
+				}
+					
+				//System.out.println("quake: "+ quake.hashCode() +" Country earthquake "+ countryName);
 				/*if(isInCountry(quake, country)){
 					countryName = (new LandQuakeMarker(quake).getCountry());
 					//System.out.println(countryName);
@@ -261,11 +254,11 @@ public class EarthquakeCityMap extends PApplet {
 				}	
 				check = isInCountry(quake, country);*/
 				
+				//System.out.println(countryName +":"+ landCounter);
 			}
-			//System.out.println(" isInCountry? "+ check);
-			
+			//System.out.println(countryName +":"+ landCounter);
 		}
-		System.out.println(countryName +":"+ landCounter);
+		//System.out.println(countryName +":"+ landCounter);
 		//System.out.println("Ocean count"+ countryName +":"+ O_count);
 	}
 	
