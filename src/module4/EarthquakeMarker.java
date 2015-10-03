@@ -65,6 +65,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		drawEarthquake(pg, x, y);
 		
 		String age =(this.properties.get("age").toString());
+		//System.out.println("Age :" + age);
 		if (age == "Past Hour"){
 			pg.fill(0);
 			pg.line(x-5, y-5, x+5, y+5);

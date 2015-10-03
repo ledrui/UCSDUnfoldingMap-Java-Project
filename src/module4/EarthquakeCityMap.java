@@ -83,7 +83,7 @@ public class EarthquakeCityMap extends PApplet {
 	     //earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -100,8 +100,9 @@ public class EarthquakeCityMap extends PApplet {
 	    
 		//     STEP 3: read in earthquake RSS feed
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
-	    quakeMarkers = new ArrayList<Marker>();
 	    
+	    quakeMarkers = new ArrayList<Marker>();
+	   
 	    // getEarthquake
 	    
 	    for(PointFeature feature : earthquakes) {
@@ -123,6 +124,25 @@ public class EarthquakeCityMap extends PApplet {
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
+	    
+	    // earthquakes counting 
+	    int o_count = 0; 
+		for (PointFeature eq : earthquakes ){
+			if(!(isLand(eq))){
+				o_count++;
+			}
+		}
+		System.out.println("O_count: "+ o_count);
+		
+		int usa_count = 0; 
+		for(Feature country: countries) {
+			for (Marker m : quakeMarkers ){
+				
+				if(m.getCou){
+					usa_count++;
+			}
+    	}
+		System.out.println("O_count: "+ o_count);
 	    
 	}  // End setup
 	
@@ -198,6 +218,8 @@ public class EarthquakeCityMap extends PApplet {
 		return false;
 	}
 	
+	
+	
 	// prints countries with number of earthquakes
 	// You will want to loop through the country markers or country features
 	// (either will work) and then for each country, loop through
@@ -205,20 +227,19 @@ public class EarthquakeCityMap extends PApplet {
 	// Recall that the country markers have a "name" property, 
 	// And LandQuakeMarkers have a "country" property set.
 	
-	//private int quakeCount = 0 ; // earthquake counter
-	private List<Integer> quakeCount = new ArrayList<Integer>() ; 
 	
 	private void printQuakes() 
 	{
 		// TODO: Implement this method
+		
 		for ( Marker country : countryMarkers)
 		{
 			int counter = 0;
-			for ( Marker earthquake : quakeMarkers)
+			for ( Marker quake : quakeMarkers )
 			{
-					//String countryName = earthquake.getCountry();
+					String countryName = quake.getCountry();
 					//System.out.println(earthquake);
-					//if (countryName == country.getClass() )
+					if (countryName == country.getProperty("name") )
 					counter++; 
 				
 			}
