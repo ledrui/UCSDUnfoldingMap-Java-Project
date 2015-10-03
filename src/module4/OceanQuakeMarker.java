@@ -29,8 +29,8 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
 		
-		// TODO: Implement this method
-		float myRadius = this.radius;
+		
+		float myRadius = getRadius();
 		pg.ellipse(x, y, myRadius+2, myRadius+2 );
 		
 		

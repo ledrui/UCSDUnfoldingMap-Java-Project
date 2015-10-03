@@ -159,7 +159,7 @@ public class EarthquakeCityMap extends PApplet {
 		
 		fill(color(255, 255, 0));
 		ellipse(50, 250, 15, 15);
-		fill(color(0, 255, 0));
+		fill(color(0, 155, 200));
 		ellipse(50, 280, 15, 15);
 		fill(color(255, 0, 0));
 		ellipse(50, 310, 15, 15);
