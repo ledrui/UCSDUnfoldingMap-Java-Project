@@ -20,7 +20,7 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Iliass Tiendrebeogo
  * Date: July 17, 2015
  * */
 public class EarthquakeCityMap extends PApplet {
@@ -146,8 +146,18 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
-	}
-	
+		for (Marker quakeMarker : markers){
+			if(quakeMarker.isInside(map, mouseX, mouseY) ){
+				// set the lastselected to selected
+				if ((quakeMarker.isSelected()) & (lastSelected == null)) {
+					lastSelected.setSelected(true);
+				}
+			}
+			
+		}
+	}	
+
+
 	/** The event handler for mouse clicks
 	 * It will display an earthquake and its threat circle of cities
 	 * Or if a city is clicked, it will display all the earthquakes 
