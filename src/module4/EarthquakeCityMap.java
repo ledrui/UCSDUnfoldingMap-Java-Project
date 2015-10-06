@@ -238,10 +238,10 @@ public class EarthquakeCityMap extends PApplet {
 				String countryName = (String) quake.getProperty("country"); // 
 				
 				if (countryName == CountryName_1 ){
-					landCounter++; 
-					System.out.println(" Country earthquake "+ countryName +" :"+ landCounter);
+					landCounter = landCounter+1; 
+					//System.out.println(" Country earthquake "+ countryName +" :"+ landCounter);
 				}
-					
+				System.out.println(" Country earthquake "+ countryName +" :"+ landCounter);
 				//System.out.println("quake: "+ quake.hashCode() +" Country earthquake "+ countryName);
 				/*if(isInCountry(quake, country)){
 					countryName = (new LandQuakeMarker(quake).getCountry());
