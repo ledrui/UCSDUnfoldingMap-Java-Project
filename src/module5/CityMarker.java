@@ -43,6 +43,7 @@ public class CityMarker extends CommonMarker {
 		pg.fill(150, 30, 30);
 		pg.triangle(x, y-TRI_SIZE, x-TRI_SIZE, y+TRI_SIZE, x+TRI_SIZE, y+TRI_SIZE);
 		
+		
 		// Restore previous drawing style
 		pg.popStyle();
 	}
@@ -52,6 +53,10 @@ public class CityMarker extends CommonMarker {
 	{
 		
 		// TODO: Implement this method
+		pg.fill(0);
+		pg.text(getCity(), x, y);
+		pg.text(getCountry(), x, y);
+		pg.text(getPopulation(), x, y);
 	}
 	
 	
@@ -76,7 +81,10 @@ public class CityMarker extends CommonMarker {
 
 	@Override
 	public void drawMarker(PGraphics pg, float x, float y) {
-		// TODO Auto-generated method stub
+		// call draw
+		draw(pg, x, y);	
 		
 	}
+
+
 }

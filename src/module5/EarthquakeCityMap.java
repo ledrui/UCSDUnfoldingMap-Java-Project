@@ -105,7 +105,7 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
+	    //printQuakes();
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -117,11 +117,48 @@ public class EarthquakeCityMap extends PApplet {
 	
 	
 	public void draw() {
-		background(0);
+		background(200,200,200);
+		keyPressed();
 		map.draw();
 		addKey();
+		selectBkgColor();
+		
 		
 	}
+	
+	/**
+	 * Event listener for keyPressed
+	 * **/
+	public void keyPressed(){
+		if(key == 'w'){
+			background(255,255,255);
+		}
+	}
+	/**
+	 *background color picker buttons**
+	 **/
+	public void selectBkgColor(){
+		fill(255,255,255);
+		rect(100,400,25,25);
+		fill(100,100,100);
+		rect(100,450,25,25);
+	}
+	
+	/**
+	 * Event listener mouseReleased that get called automatically when the mouse 
+	 * is released
+	 * **/
+	@Override
+	public void mouseReleased(){
+		if(mouseX > 100 && mouseX < 175 && mouseY < 400 && mouseY > 425)
+		{
+			background(255,255,255);
+		}
+		else if(mouseX > 100 && mouseX < 175 && mouseY < 450 && mouseY > 475) {
+			background(100,100,100);
+		}
+	}
+	
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
@@ -147,10 +184,12 @@ public class EarthquakeCityMap extends PApplet {
 	{
 		// TODO: Implement this method
 		for (Marker quakeMarker : markers){
-			if(quakeMarker.isInside(map, mouseX, mouseY) ){
-				// set the lastselected to selected
-				if ((quakeMarker.isSelected()) & (lastSelected == null)) {
-					lastSelected.setSelected(true);
+			if(quakeMarker.isInside(map, mouseX, mouseY)  ){
+				// set the last selection to selected
+				if (lastSelected == null) {
+					quakeMarker.setSelected(true);
+					lastSelected = (CommonMarker) quakeMarker;
+					
 				}
 			}
 			
@@ -169,8 +208,56 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		
+		// clear the last selection
+		if (lastClicked != null) {
+			lastClicked.setSelected(false);
+			//lastClicked = null;
+		}
+		clickMarkerIfSelected(quakeMarkers);
+		clickMarkerIfSelected(cityMarkers);
+		
+		//
+		displayMArkers(quakeMarkers);
+		displayMArkers(cityMarkers);
+		
+	}
+	/**
+	 * set setClick() to true if clicked
+	 * **/
+	public void clickMarkerIfSelected(List<Marker> markers)
+	{
+		for(Marker marker : markers){
+			if(marker.isInside(map, mouseX, mouseY)){
+				if(lastClicked == null){
+					lastClicked.setClicked(true);
+					lastClicked = (CommonMarker) marker;
+				}
+			}
+			
+		}
+		
 	}
 	
+	/**
+	 * Hide or UnHide marker in the threat circle
+	 * **/
+	public void displayMArkers(List<Marker> markers){
+		for (Marker marker : markers){
+			if(((CommonMarker) marker).getClicked() == false){
+				hideMarkers();
+			}
+		}
+	} 
+	// loop over and hide markers
+	private void hideMarkers(){
+		for (Marker marker: quakeMarkers){
+			marker.setHidden(true);
+		}
+		for (Marker marker: cityMarkers){
+			marker.setHidden(true);
+		}
+	}
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
