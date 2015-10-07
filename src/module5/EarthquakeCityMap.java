@@ -144,20 +144,6 @@ public class EarthquakeCityMap extends PApplet {
 		rect(100,450,25,25);
 	}
 	
-	/**
-	 * Event listener mouseReleased that get called automatically when the mouse 
-	 * is released
-	 * **/
-	@Override
-	public void mouseReleased(){
-		if(mouseX > 100 && mouseX < 175 && mouseY < 400 && mouseY > 425)
-		{
-			background(255,255,255);
-		}
-		else if(mouseX > 100 && mouseX < 175 && mouseY < 450 && mouseY > 475) {
-			background(100,100,100);
-		}
-	}
 	
 	
 	/** Event handler that gets called automatically when the 
@@ -182,17 +168,23 @@ public class EarthquakeCityMap extends PApplet {
 	// 
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
-		// TODO: Implement this method
-		for (Marker quakeMarker : markers){
-			if(quakeMarker.isInside(map, mouseX, mouseY)  ){
-				// set the last selection to selected
-				if (lastSelected == null) {
-					quakeMarker.setSelected(true);
-					lastSelected = (CommonMarker) quakeMarker;
-					
-				}
+		
+		for (Marker m : markers){
+			if (lastSelected != null){
+				return ;
 			}
-			
+			// set lastSelected to the selected marker
+			else
+			{
+				if(m.isInside(map, mouseX, mouseY)  ){
+					lastSelected = (CommonMarker) m;
+					m.setSelected(true);
+					
+					return;
+				}
+										
+			}
+						
 		}
 	}	
 
@@ -211,8 +203,10 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// clear the last selection
 		if (lastClicked != null) {
-			lastClicked.setSelected(false);
-			//lastClicked = null;
+			lastClicked.setClicked(false);
+			unhideMarkers();
+			lastClicked = null;
+			
 		}
 		clickMarkerIfSelected(quakeMarkers);
 		clickMarkerIfSelected(cityMarkers);
@@ -222,20 +216,51 @@ public class EarthquakeCityMap extends PApplet {
 		displayMArkers(cityMarkers);
 		
 	}
+	
+	/**
+	 * Event listener mouseReleased that get called automatically when the mouse 
+	 * is released
+	 * **/
+	@Override
+	public void mouseReleased()
+	{
+		if((mouseX > 100 && mouseX < 175) && (mouseY < 400 && mouseY > 425))
+		{
+			background(255,255,255);
+		}
+		else if((mouseX > 100 && mouseX < 175) && (mouseY < 450 && mouseY > 475)) {
+			background(100,100,100);
+		}
+		
+		// Un hide all markers if mouse released
+		//unhideMarkers();
+	}
+	
 	/**
 	 * set setClick() to true if clicked
+	 * @return 
 	 * **/
 	public void clickMarkerIfSelected(List<Marker> markers)
 	{
+		
 		for(Marker marker : markers){
-			if(marker.isInside(map, mouseX, mouseY)){
-				if(lastClicked == null){
-					lastClicked.setClicked(true);
-					lastClicked = (CommonMarker) marker;
-				}
+			
+			CommonMarker m = ((CommonMarker) marker);
+			
+			if(lastClicked != null){
+				return;
 			}
 			
+		    else if(m.isInside(map, mouseX, mouseY)){
+		    	   
+					lastClicked = m;
+					m.setClicked(true);
+					System.out.println(m.getStringProperty("name"));
+					return ;
+				}						
 		}
+		
+		// display selected marker
 		
 	}
 	
@@ -243,12 +268,16 @@ public class EarthquakeCityMap extends PApplet {
 	 * Hide or UnHide marker in the threat circle
 	 * **/
 	public void displayMArkers(List<Marker> markers){
+		
 		for (Marker marker : markers){
-			if(((CommonMarker) marker).getClicked() == false){
-				hideMarkers();
+			CommonMarker	m = (CommonMarker) marker;
+			if(m != lastClicked){
+				m.setHidden(true);
+				return;
 			}
 		}
-	} 
+	}
+	
 	// loop over and hide markers
 	private void hideMarkers(){
 		for (Marker marker: quakeMarkers){

@@ -35,7 +35,8 @@ public class CityMarker extends CommonMarker {
 	/**
 	 * Implementation of method to draw marker on the map.
 	 */
-	public void draw(PGraphics pg, float x, float y) {
+	
+	public void draw_(PGraphics pg, float x, float y) {
 		// Save previous drawing style
 		pg.pushStyle();
 		
@@ -50,13 +51,39 @@ public class CityMarker extends CommonMarker {
 	
 	/** Show the title of the city if this marker is selected */
 	public void showTitle(PGraphics pg, float x, float y)
-	{
+	{	
+		String City = getCity();
+		String Country = getCountry();
+		float Population = getPopulation();
 		
-		// TODO: Implement this method
+		pg.pushStyle();
+		pg.rectMode(PConstants.CORNER);
+		
+		pg.stroke(110);
+		pg.fill(255,255,255);
+		pg.rect(x,y+15,pg.textWidth(City)+6, 18,5);
+		
+		pg.textAlign(PConstants.LEFT, PConstants.TOP);
 		pg.fill(0);
-		pg.text(getCity(), x, y);
-		pg.text(getCountry(), x, y);
-		pg.text(getPopulation(), x, y);
+		pg.text(City, x+3, y+18);
+		
+		pg.rectMode(PConstants.CORNER);
+		pg.stroke(110);
+		pg.fill(255,255,255);
+		pg.rect(x,y+40,pg.textWidth(Country)+6, 45, 5);
+		
+		pg.textAlign(PConstants.LEFT, PConstants.TOP);
+		pg.fill(0);
+		pg.text(Country, x+3, y+45);
+		
+		pg.rectMode(PConstants.CORNER);
+		pg.fill(255,255,255);
+		pg.rect(x,y+70,60 +6, 75,5);
+		pg.textAlign(PConstants.LEFT, PConstants.TOP);
+		pg.fill(0);
+		pg.text(Population, x+3, y+75);
+		
+		pg.popStyle();
 	}
 	
 	
@@ -82,7 +109,7 @@ public class CityMarker extends CommonMarker {
 	@Override
 	public void drawMarker(PGraphics pg, float x, float y) {
 		// call draw
-		draw(pg, x, y);	
+		draw_(pg, x, y);	
 		
 	}
 
