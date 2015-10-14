@@ -201,19 +201,17 @@ public class EarthquakeCityMap extends PApplet {
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
 		
-		// clear the last selection
+		// clear the last clicked
 		if (lastClicked != null) {
-			lastClicked.setClicked(false);
 			unhideMarkers();
 			lastClicked = null;
-			
 		}
-		clickMarkerIfSelected(quakeMarkers);
-		clickMarkerIfSelected(cityMarkers);
+		else if(lastClicked == null){
+			ifQuakeMarkerClicked();
+			if(lastClicked == null)
+				ifCityClicked();
+		}
 		
-		//
-		displayMArkers(quakeMarkers);
-		displayMArkers(cityMarkers);
 		
 	}
 	
@@ -232,61 +230,60 @@ public class EarthquakeCityMap extends PApplet {
 			background(100,100,100);
 		}
 		
-		// Un hide all markers if mouse released
-		//unhideMarkers();
 	}
-	
+		
 	/**
 	 * set setClick() to true if clicked
-	 * @return 
+	 * 
 	 * **/
-	public void clickMarkerIfSelected(List<Marker> markers)
+	public void ifQuakeMarkerClicked()
 	{
-		
-		for(Marker marker : markers){
-			
-			CommonMarker m = ((CommonMarker) marker);
-			
-			if(lastClicked != null){
-				return;
-			}
-			
-		    else if(m.isInside(map, mouseX, mouseY)){
-		    	   
-					lastClicked = m;
-					m.setClicked(true);
-					System.out.println(m.getStringProperty("name"));
-					return ;
-				}						
+		if(lastClicked != null){
+			return;
 		}
-		
-		// display selected marker
+		for(Marker marker : quakeMarkers){
+			EarthquakeMarker m = ((EarthquakeMarker) marker);			
+		    if(!m.isHidden() && m.isInside(map, mouseX, mouseY)){
+		    	lastClicked = m;
+				for (Marker hidemarker : quakeMarkers){
+					if(hidemarker != lastClicked)
+						hidemarker.setHidden(true);					
+				}
+			    for (Marker hidemarker1 : cityMarkers){
+					if(hidemarker1.getDistanceTo(m.getLocation()) > m.threatCircle())
+						hidemarker1.setHidden(true);					
+				}
+			    return;
+		    }
+	    }		
 		
 	}
 	
 	/**
-	 * Hide or UnHide marker in the threat circle
+	 * Check for city cliked on and show earthquake 
 	 * **/
-	public void displayMArkers(List<Marker> markers){
-		
-		for (Marker marker : markers){
-			CommonMarker	m = (CommonMarker) marker;
-			if(m != lastClicked){
-				m.setHidden(true);
+	public void ifCityClicked(){
+		if(lastClicked != null)
+			return ;
+		for (Marker marker : cityMarkers){
+			CommonMarker	lastClicked = (CommonMarker) marker;
+			if(!marker.isHidden() && marker.isInside(map, mouseX, mouseY)){
+				lastClicked = (CommonMarker) marker;
+				for(Marker hidemarker: cityMarkers){
+					if(hidemarker!=lastClicked)
+						hidemarker.setHidden(true);
+				  }
+				for(Marker hidemarker2:quakeMarkers){
+					EarthquakeMarker quakeMark =    ((EarthquakeMarker) hidemarker2);
+					if(quakeMark.getDistanceTo(marker.getLocation()) > quakeMark.threatCircle());
+					quakeMark.setHidden(true); 
+				    }
 				return;
-			}
+				}
+			
 		}
 	}
 	
-	// loop over and hide markers
-	private void hideMarkers(){
-		for (Marker marker: quakeMarkers){
-			marker.setHidden(true);
-		}
-		for (Marker marker: cityMarkers){
-			marker.setHidden(true);
-		}
-	}
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
