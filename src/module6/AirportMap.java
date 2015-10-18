@@ -17,7 +17,7 @@ import processing.core.PApplet;
 
 /** An applet that shows airports (and routes)
  * on a world map.  
- * @author Adam Setters and the UC San Diego Intermediate Software Development
+ * @author Iliass and the UC San Diego Intermediate Software Development
  * MOOC team
  *
  */
@@ -25,6 +25,7 @@ public class AirportMap extends PApplet {
 	
 	UnfoldingMap map;
 	private List<Marker> airportList;
+	private List<Marker> seattleAirportList;
 	List<Marker> routeList;
 	
 	public void setup() {
@@ -40,6 +41,7 @@ public class AirportMap extends PApplet {
 		
 		// list for markers, hashmap for quicker access when matching with routes
 		airportList = new ArrayList<Marker>();
+		seattleAirportList = new ArrayList<Marker>();
 		HashMap<Integer, Location> airports = new HashMap<Integer, Location>();
 		
 		// create markers from features
@@ -48,6 +50,10 @@ public class AirportMap extends PApplet {
 	
 			m.setRadius(5);
 			airportList.add(m);
+			
+			if(m.getStringProperty("Country").equals("America")){
+				seattleAirportList.add(m);
+			}
 			
 			// put airport in hashmap with OpenFlights unique id for key
 			airports.put(Integer.parseInt(feature.getId()), feature.getLocation());
@@ -82,8 +88,8 @@ public class AirportMap extends PApplet {
 		
 		//UNCOMMENT IF YOU WANT TO SEE ALL ROUTES
 		//map.addMarkers(routeList);
-		
 		map.addMarkers(airportList);
+		//map.addMarkers(seattleAirportList);
 		
 	}
 	
