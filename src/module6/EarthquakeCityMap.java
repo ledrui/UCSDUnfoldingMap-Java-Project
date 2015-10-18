@@ -21,7 +21,7 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Iliass Tiendrebeogo
  * Date: July 17, 2015
  * */
 public class EarthquakeCityMap extends PApplet {
@@ -157,7 +157,7 @@ public class EarthquakeCityMap extends PApplet {
 				   i++;
 			   }
 			   System.out.println("\n");
-			   System.out.println(" Total quakes :"+i + "   list length :"+ quakeArray.length);
+			   System.out.println(" Total quakes :"+i + "list length :"+ quakeArray.length);
 		   }
 		   else{
 			   System.out.println(" Error: Empty list");
