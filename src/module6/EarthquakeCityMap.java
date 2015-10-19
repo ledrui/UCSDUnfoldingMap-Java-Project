@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -65,6 +66,11 @@ public class EarthquakeCityMap extends PApplet {
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
 	
+	// new in module 6
+	HashMap<String, Float> lifeExpMap;
+	List<Feature> countries;
+	//List<Marker> countryMarkers;
+	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
@@ -116,7 +122,7 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
+	    //printQuakes();
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -130,7 +136,39 @@ public class EarthquakeCityMap extends PApplet {
 	    System.out.println("\n");
 	    System.out.println(" numToPrint = 20 ");
 	    sortAndPrint(100);
+	    
+	       // Load lifeExpectancy data
+	 		lifeExpMap = ParseFeed.loadLifeExpectancyFromCSV(this,"LifeExpectancyWorldBank.csv");
+	 		
+	 		// Load country polygons and adds them as markers
+	 		countries = GeoJSONReader.loadData(this, "countries.geo.json");
+	 		countryMarkers = MapUtils.createSimpleMarkers(countries);
+	 		map.addMarkers(countryMarkers);
+	 		System.out.println(countryMarkers.get(0).getId());
+	 		
+	 		// Country markers are shaded according to life expectancy (only once)
+	 		shadeCountries();
 	}  // End setup
+	
+	//Helper method to color each country based on life expectancy
+		//Red-orange indicates low (near 40)
+		//Blue indicates high (near 100)
+		private void shadeCountries() {
+			for (Marker marker : countryMarkers) {
+				// Find data for country of the current marker
+				String countryId = marker.getId();
+				System.out.println(lifeExpMap.containsKey(countryId));
+				if (lifeExpMap.containsKey(countryId)) {
+					float lifeExp = lifeExpMap.get(countryId);
+					// Encode value as brightness (values range: 40-90)
+					int colorLevel = (int) map(lifeExp, 40, 90, 10, 255);
+					marker.setColor(color(255-colorLevel, 100, colorLevel));
+				}
+				else {
+					marker.setColor(color(150,150,150));
+				}
+			}
+		}
 	
 	
 	public void draw() {
@@ -304,12 +342,11 @@ public class EarthquakeCityMap extends PApplet {
 		textSize(12);
 		text("Earthquake Key", xbase+25, ybase+25);
 		
-		fill(150, 30, 30);
+		fill(247, 71, 109);
+		int TRI_SIZE = 5;
 		int tri_xbase = xbase + 35;
 		int tri_ybase = ybase + 50;
-		triangle(tri_xbase, tri_ybase-CityMarker.TRI_SIZE, tri_xbase-CityMarker.TRI_SIZE, 
-				tri_ybase+CityMarker.TRI_SIZE, tri_xbase+CityMarker.TRI_SIZE, 
-				tri_ybase+CityMarker.TRI_SIZE);
+		triangle(tri_xbase, tri_ybase+TRI_SIZE, tri_xbase+TRI_SIZE, tri_ybase+2*TRI_SIZE+1, tri_xbase+2*TRI_SIZE, tri_ybase+TRI_SIZE);
 
 		fill(0, 0, 0);
 		textAlign(LEFT, CENTER);

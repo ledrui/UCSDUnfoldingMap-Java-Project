@@ -8,11 +8,11 @@ import de.fhpotsdam.unfolding.providers.*;
 import de.fhpotsdam.unfolding.providers.Google.*;
 
 import java.util.List;
+
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
 
 import java.util.HashMap;
-
 
 import de.fhpotsdam.unfolding.marker.Marker;
 
@@ -29,10 +29,13 @@ public class LifeExpectancy extends PApplet {
 	HashMap<String, Float> lifeExpMap;
 	List<Feature> countries;
 	List<Marker> countryMarkers;
+	
+	private CommonMarker lastClicked;
+	private CommonMarker lastSelected;
 
 	public void setup() {
-		size(800, 600, OPENGL);
-		map = new UnfoldingMap(this, 50, 50, 700, 500, new Google.GoogleMapProvider());
+		size(900, 700, OPENGL);
+		map = new UnfoldingMap(this, 50, 50, 700, 700, new Google.GoogleMapProvider());
 		MapUtils.createDefaultEventDispatcher(this, map);
 
 		// Load lifeExpectancy data
@@ -41,7 +44,10 @@ public class LifeExpectancy extends PApplet {
 
 		// Load country polygons and adds them as markers
 		countries = GeoJSONReader.loadData(this, "countries.geo.json");
-		countryMarkers = MapUtils.createSimpleMarkers(countries);
+		for(Feature country : countries) {
+			countryMarkers.add(new LifeExpectancyMarker(country));
+			}
+		//countryMarkers = MapUtils.createSimpleMarkers(countries);
 		map.addMarkers(countryMarkers);
 		System.out.println(countryMarkers.get(0).getId());
 		
@@ -73,6 +79,38 @@ public class LifeExpectancy extends PApplet {
 			}
 		}
 	}
+	
+	@Override
+	public void mouseMoved()
+	{
+		// clear the last selection
+		if (lastSelected != null) {
+			lastSelected.setSelected(false);
+			lastSelected = null;
+		
+		}
+		selectMarkerIfHover(countryMarkers);
+		
+	}
+	
+	// If there is a marker selected 
+		private void selectMarkerIfHover(List<Marker> markers)
+		{
+			// Abort if there's already a marker selected
+			if (lastSelected != null) {
+				return;
+			}
+			
+			for (Marker m : markers) 
+			{
+				CommonMarker marker = (CommonMarker)m;
+				if (marker.isInside(map,  mouseX, mouseY)) {
+					lastSelected = marker;
+					marker.setSelected(true);
+					return;
+				}
+			}
+		}
 
 
 }

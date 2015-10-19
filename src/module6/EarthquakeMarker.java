@@ -138,7 +138,7 @@ public abstract class EarthquakeMarker   extends CommonMarker implements Compara
 		float depth = getDepth();
 		
 		if (depth < THRESHOLD_INTERMEDIATE) {
-			pg.fill(255, 255, 0);
+			pg.fill(255, 165, 0);
 		}
 		else if (depth < THRESHOLD_DEEP) {
 			pg.fill(0, 0, 255);

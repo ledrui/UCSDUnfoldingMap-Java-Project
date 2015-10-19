@@ -8,7 +8,7 @@ import processing.core.PGraphics;
 
 /** Implements a visual marker for cities on an earthquake map
  * 
- * @author UC San Diego Intermediate Software Development MOOC team
+ * @author Iliass Tiendrebeogo UC San Diego Intermediate Software Development MOOC team
  * 
  */
 public class CityMarker extends CommonMarker {
@@ -43,8 +43,8 @@ public class CityMarker extends CommonMarker {
 		pg.pushStyle();
 		
 		// IMPLEMENT: drawing triangle for each city
-		pg.fill(250, 100, 30);
-		pg.triangle(x, y-TRI_SIZE, x-TRI_SIZE, y-TRI_SIZE, x+TRI_SIZE, y+TRI_SIZE);
+		pg.fill(247, 71, 109);
+		pg.triangle(x, y+TRI_SIZE, x+TRI_SIZE, y+2*TRI_SIZE+1, x+2*TRI_SIZE, y+TRI_SIZE);
 		
 		// Restore previous drawing style
 		pg.popStyle();
