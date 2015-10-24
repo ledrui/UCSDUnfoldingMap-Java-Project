@@ -81,6 +81,7 @@ public class HelloWorld extends PApplet
 		
 		// Zoom to my city
 		map2.zoomAndPanTo(zoomLevel, new Location(47.697263, -122.321724)); 
+		MapUtils.createDefaultEventDispatcher(this, map2);
 				
 
 	}
